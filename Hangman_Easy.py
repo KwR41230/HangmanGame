@@ -21,11 +21,36 @@ def rainbow_confetti():
     colors = [Fore.RED, Fore.YELLOW, Fore.GREEN, Fore.CYAN, Fore.BLUE, Fore.MAGENTA, Style.BRIGHT + Fore.RED,
               Style.BRIGHT + Fore.YELLOW, Style.BRIGHT + Fore.GREEN, Style.BRIGHT + Fore.CYAN, Style.BRIGHT + Fore.BLUE,
               Style.BRIGHT + Fore.MAGENTA]
-    for row in range(10):
-        for _ in range(10):
-            print(random.choice(colors) + "*", end=" ")
+
+    # Add blank lines to push the animation down
+    for _ in range(15):
         print()
-        time.sleep(0.5)  # Add a 0.5 second delay
+
+    # Firework launch
+    for i in range(5):
+        print("\033[A" * (5 - i) + " " * 30 + Fore.WHITE + "." + Style.RESET_ALL)
+        time.sleep(0.1)
+
+    # Pause before explosion
+    time.sleep(0.5)
+
+    # Move cursor up to position explosion above the trail
+    print("\033[10A", end="\r")
+
+    # Explosion
+    for frame in range(5):
+        for y in range(10):
+            line = " " * 20
+            for x in range(20):
+                if random.random() < 0.3 * (5 - frame) / 5:
+                    line += random.choice(colors) + random.choice(['*', '+', '.', 'o']) + Style.RESET_ALL
+                else:
+                    line += " "
+            print(line)
+        time.sleep(0.4)
+        if frame < 4:
+            print("\033[10A", end="\r")  # Move cursor up 10 lines
+
     print(Style.RESET_ALL)
 
 
